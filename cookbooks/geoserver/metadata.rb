@@ -1,0 +1,10 @@
+name             'geoserver'
+maintainer       'Ian Turton'
+maintainer_email 'ijturton@gmail.com'
+license          'MIT'
+description      'Installs/Configures geoserver'
+long_description 'Installs/Configures geoserver'
+version          '0.2.0'
+
+depends 'java'
+depends 'apt'

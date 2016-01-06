@@ -1,0 +1,5 @@
+{
+  "id": "admin",
+  "password": "secretadmin",
+  "roles": ["admin"]
+}
