@@ -17,7 +17,8 @@ package "curl"
 package "gdal-bin"
 package "postgresql" #for psql
 
-geoserver_name = ::File.basename("#{node['geoserver']['url']}")
+url = "http://sourceforge.net/projects/geoserver/files/GeoServer/#{node[:geoserver][:version]}/geoserver-#{node[:geoserver][:version]}-war.zip"
+geoserver_name = ::File.basename("#{url}")
 geoserver_local_path = ::File.join(Chef::Config[:file_cache_path],geoserver_name)
 geoserver_tmp = ::File.join(Chef::Config[:file_cache_path],"geoserver")
 tomcat_directory = node['tomcat']['webapp_dir']
@@ -33,7 +34,7 @@ end
 
 remote_file "#{geoserver_local_path}" do
   action :create_if_missing
-  source "#{node['geoserver']['url']}"
+  source "#{url}"
   notifies :run, 'execute[install geoserver]', :immediately
 end
 
