@@ -1,0 +1,12 @@
+<dataStore>
+  <name><%= node['dbname'] %></name>
+  <connectionParameters>
+    <host>localhost</host>
+    <port>5432</port>
+    <database><%= node['dbname'] %></database>
+    <user>geoserver</user>
+    <schema><%= node['dbschema'] %></schema>
+    <passwd>ianian</passwd>
+    <dbtype>postgis</dbtype>
+  </connectionParameters>
+</dataStore>

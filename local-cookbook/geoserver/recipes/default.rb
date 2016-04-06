@@ -17,7 +17,15 @@ package "curl"
 package "gdal-bin"
 package "postgresql" #for psql
 
-url = "http://sourceforge.net/projects/geoserver/files/GeoServer/#{node[:geoserver][:version]}/geoserver-#{node[:geoserver][:version]}-war.zip"
+if "#{node[:geoserver][:version]}" == "latest" 
+#  http://ares.boundlessgeo.com/geoserver/master/geoserver-master-latest-war.zip
+  url = "http://ares.boundlessgeo.com/geoserver/master/geoserver-master-latest-war.zip"
+elsif "#{node[:geoserver][:version]}".include? "x" 
+  #http://ares.boundlessgeo.com/geoserver/2.8.x/geoserver-2.8.x-latest-war.zip
+  url = "http://ares.boundlessgeo.com/geoserver/#{node[:geoserver][:version]}/geoserver-#{node[:geoserver][:version]}-latest-war.zip"
+else
+  url = "http://sourceforge.net/projects/geoserver/files/GeoServer/#{node[:geoserver][:version]}/geoserver-#{node[:geoserver][:version]}-war.zip"
+end
 geoserver_name = ::File.basename("#{url}")
 geoserver_local_path = ::File.join(Chef::Config[:file_cache_path],geoserver_name)
 geoserver_tmp = ::File.join(Chef::Config[:file_cache_path],"geoserver")

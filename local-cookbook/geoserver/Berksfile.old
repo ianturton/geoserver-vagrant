@@ -1,0 +1,7 @@
+source "https://supermarket.chef.io"
+
+metadata
+
+#cookbook "tomcat_ian", path: "../tomcat_ian"
+#cookbook "load_os_data", path: "../load_os_data"
+#cookbook "postgis_ian", path: "../postgis_ian"
