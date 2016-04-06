@@ -16,6 +16,8 @@ elsif node[:geoserver][:version].include? "x"
   basename = node[:geoserver][:version]
   url = "http://ares.boundlessgeo.com/geoserver/#{node[:geoserver][:version]}/ext-latest/geoserver-#{basename[0..-3]}-SNAPSHOT-css-plugin.zip"
 else
+
+#http://sourceforge.net/projects/geoserver/files/GeoServer/2.8.3/extensions/geoserver-2.8.3-css-plugin.zip
 url = "http://sourceforge.net/projects/geoserver/files/GeoServer/#{node['geoserver']['version']}/extensions/geoserver-#{node['geoserver']['version']}-css-plugin.zip"
 end
 
