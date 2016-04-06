@@ -33,7 +33,7 @@ Vagrant::configure("2") do |config|
   config.vm.provider :virtualbox do |vb|
 
     # Use VBoxManage to customize the VM
-    vb.customize ["modifyvm", :id, "--memory", "1024"]
+    vb.customize ["modifyvm", :id, "--memory", "3072"]
 #    vb.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/src", "1"]
   end
 
@@ -61,7 +61,7 @@ Vagrant::configure("2") do |config|
   # config.vm.forward_port 80, 8080
 
   config.vm.network :forwarded_port, guest: 8080, host: 4080, auto_correct: true
-  config.vm.network "private_network", ip: "192.168.50.4"
+  config.vm.network "private_network", ip: "192.168.50.24"
 
   #config.vm.synced_folder "data/", "/data", owner: "tomcat6", group: "tomcat6", type: "nfs"
   config.vm.synced_folder "data/", "/data", 
@@ -84,10 +84,11 @@ Vagrant::configure("2") do |config|
     chef.add_recipe "geoserver::install_msfonts"
     chef.add_recipe "geoserver"
     chef.add_recipe "geoserver::add_wps"
+    chef.add_recipe "geoserver::add_css"
     chef.add_recipe "geoserver::install_ordnancesurvey_fonts"
 
     chef.json = {
-      :geoserver => {:version => '2.8.1',
+      :geoserver => {:version => 'latest',
         :data_dir => '/data/geoserver' },
       :install_repo => {:repos => [
         "deb http://us.archive.ubuntu.com/ubuntu/ trusty multiverse",
@@ -107,7 +108,7 @@ Vagrant::configure("2") do |config|
 #      },
       :tomcat => {
             'catalina_options' => "-DGEOSERVER_DATA_DIR=/data/geoserver",
-            'java_options' => "${JAVA_OPTS} -Djava.awt.headless=true -Xmx1024m -XX:NewSize=256m -XX:MaxNewSize=256m -XX:PermSize=512m -XX:MaxPermSize=512m -XX:CompileCommand=exclude,net/sf/saxon/event/ReceivingContentHandler.startElement",
+            'java_options' => "${JAVA_OPTS} -Djava.awt.headless=true -Xmx2048m -XX:NewSize=256m -XX:MaxNewSize=256m -XX:PermSize=512m -XX:MaxPermSize=512m -XX:CompileCommand=exclude,net/sf/saxon/event/ReceivingContentHandler.startElement",
             :keystore_password => "ianian"
       }
     }
