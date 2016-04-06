@@ -85,7 +85,7 @@ Vagrant::configure("2") do |config|
     chef.add_recipe "geoserver::install_ordnancesurvey_fonts"
 
     chef.json = {
-      :geoserver => {:version => 'latest',
+      :geoserver => {:version => '2.8.3',
         :data_dir => '/data/geoserver' },
       :install_repo => {:repos => [
         "deb http://us.archive.ubuntu.com/ubuntu/ trusty multiverse",
