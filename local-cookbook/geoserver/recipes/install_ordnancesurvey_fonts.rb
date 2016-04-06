@@ -14,7 +14,7 @@ end
 bash 'refresh cache' do
   code 'fc-cache -f'
   
-  notifies :restart, "service[#{node['tomcat']['base_instance']}]", :immediately
+  notifies :restart, "tomcat_service[geoserver]", :immediately
 end
 
 

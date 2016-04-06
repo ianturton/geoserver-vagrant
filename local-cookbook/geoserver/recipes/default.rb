@@ -4,8 +4,18 @@
 
 
 include_recipe 'java'
-include_recipe 'tomcat::default'
-#include_recipe 'geoserver::install_fonts'
+#include_recipe 'tomcat'
+
+# Install Tomcat 8.0.32 to the default location
+tomcat_install 'geoserver' do
+  version '7.0.68'
+end
+
+# start the geoserver tomcat service using a non-standard pid location
+tomcat_service 'geoserver' do
+  action [:start, :enable, :restart]
+  env_vars [{ 'CATALINA_PID' => '/opt/tomcat_geoserver/bin/non_standard_location.pid' }]
+end
 
 apt_repository 'ubuntugis-unstable' do
   uri          'ppa:ubuntugis/ubuntugis-unstable'
@@ -29,7 +39,7 @@ end
 geoserver_name = ::File.basename("#{url}")
 geoserver_local_path = ::File.join(Chef::Config[:file_cache_path],geoserver_name)
 geoserver_tmp = ::File.join(Chef::Config[:file_cache_path],"geoserver")
-tomcat_directory = node['tomcat']['webapp_dir']
+tomcat_directory = "/opt/tomcat_geoserver/webapps"
 #this makes sure that previous log files don't confuse the wait below
 execute 'preclean' do
     command "touch #{tomcat_directory}/geoserver/data/logs/geoserver.log; cat > #{tomcat_directory}/geoserver/data/logs/geoserver.log"

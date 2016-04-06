@@ -4,7 +4,6 @@
 #
 
 include_recipe 'java'
-include_recipe 'tomcat::default'
 include_recipe 'geoserver'
 
 package "unzip"
@@ -22,7 +21,7 @@ end
 
 plugin_name = ::File.basename(url)
 plugin_local_path = ::File.join(Chef::Config[:file_cache_path],plugin_name)
-tomcat_directory = "#{node['tomcat']['webapp_dir']}/geoserver/WEB-INF/lib"
+tomcat_directory = "/opt/tomcat_geoserver/webapps/geoserver/WEB-INF/lib"
 
 remote_file "#{plugin_local_path}" do
     source url
@@ -40,6 +39,6 @@ execute 'install plugin' do
 end
 
 
-service 'tomcat6' do
+service 'tomcat_geoserver' do
   action :restart
 end

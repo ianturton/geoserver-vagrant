@@ -78,9 +78,6 @@ Vagrant::configure("2") do |config|
     chef.data_bags_path = "data_bags"
     #chef.log_level = :debug
     chef.add_recipe "apt"
-    chef.add_recipe "java"
-    chef.add_recipe "tomcat"
-    chef.add_recipe "tomcat::users"
     chef.add_recipe "geoserver::install_msfonts"
     chef.add_recipe "geoserver"
     chef.add_recipe "geoserver::add_wps"

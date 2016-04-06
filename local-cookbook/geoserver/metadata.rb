@@ -8,6 +8,4 @@ version          '0.1.0'
 
 depends 'java'
 depends 'apt'
-#depends 'install_repo'
-#depends 'tomcat_ian'
-#depends 'load_os_data'
+depends 'tomcat'

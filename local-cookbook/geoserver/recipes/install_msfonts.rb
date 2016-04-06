@@ -47,8 +47,10 @@
 
   package 'ttf-mscorefonts-installer' 
 
+
   execute 'restart tomcat' do
-    command 'service tomcat6 restart'
+    command 'echo service tomcat6 restart'
+#    notifies :restart, "tomcat_service[geoserver]", :immediately
   end
 #end
 
