@@ -81,7 +81,8 @@ Vagrant::configure("2") do |config|
     chef.add_recipe "geoserver::install_msfonts"
     chef.add_recipe "geoserver"
     chef.add_recipe "geoserver::add_wps"
-    chef.add_recipe "geoserver::add_css"
+    chef.add_recipe "geoserver::add_geoscript"
+    #chef.add_recipe "geoserver::add_css"
     chef.add_recipe "geoserver::install_ordnancesurvey_fonts"
 
     chef.json = {

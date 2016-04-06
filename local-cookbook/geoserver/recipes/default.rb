@@ -56,8 +56,13 @@ remote_file "#{geoserver_local_path}" do
   notifies :run, 'execute[install geoserver]', :immediately
 end
 
+template "#{tomcat_directory}/geoserver/WEB-INF/web.xml" do
+  source "web-xml.erb"
+end
+
 execute 'own_data' do
   command "chown -R #{node['tomcat']['user']}:#{node['tomcat']['group']} #{node[:geoserver][:data_dir]}"
+  only_if {::File.exists?("#{node[:geoserver][:data_dir]}")}
 end
 
 
