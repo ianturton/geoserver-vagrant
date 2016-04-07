@@ -25,11 +25,11 @@ tomcat_directory = "/opt/tomcat_geoserver/webapps/geoserver/WEB-INF/lib"
 
 remote_file "#{plugin_local_path}" do
     source url
-    notifies :run, 'execute[install plugin]', :immediately
+    notifies :run, "execute[install plugin] #{plugin_local_path}", :immediately
     action :create_if_missing
 end
 
-execute 'install plugin' do
+execute "install plugin #{plugin_local_path}" do
     user #{node['tomcat']['user']}
     unpack = <<-EOF
       cd #{tomcat_directory}
