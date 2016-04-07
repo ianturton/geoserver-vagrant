@@ -53,39 +53,41 @@ end
 remote_file "#{geoserver_local_path}" do
   action :create_if_missing
   source "#{url}"
-  notifies :run, 'execute[install geoserver]', :immediately
+  notifies :run, 'execute[unpack geoserver]', :immediately
 end
 
-template "#{tomcat_directory}/geoserver/WEB-INF/web.xml" do
-  source "web-xml.erb"
-end
 
 execute 'own_data' do
   command "chown -R #{node['tomcat']['user']}:#{node['tomcat']['group']} #{node[:geoserver][:data_dir]}"
   only_if {::File.exists?("#{node[:geoserver][:data_dir]}")}
 end
 
-
-execute 'install geoserver' do
-    
+execute 'unpack geoserver' do
     unpack = <<-EOF
         cd #{Chef::Config[:file_cache_path]}
         unzip -p #{geoserver_name} > geoserver.war
+    EOF
+    command unpack
+end    
+execute 'install geoserver' do
+    unpack = <<-EOF
+        cd #{Chef::Config[:file_cache_path]}
         cp geoserver.war #{tomcat_directory}
     EOF
     command unpack
-    
-    only_if FileUtils.uptodate?('geoserver.war','#{tomcat_directory}/geoserver.war')
-    #not_if {::File.exists?("#{tomcat_directory}/geoserver.war")}
-    #notifies :create, 'ruby_block[block_until_geoserver_operational]', :immediate
+#    only_if FileUtils.uptodate?('geoserver.war','#{tomcat_directory}/geoserver.war')
+  notifies :run, 'ruby_block[block_until_geoserver_operational]', :immediately
 end
 
 ruby_block "block_until_geoserver_operational" do
   block do
     block do
-        true until ::File.exists?("#{tomcat_directory}/geoserver/data/logs/geoserver.log") && ::File.foreach("#{tomcat_directory}/geoserver/data/logs/geoserver.log").any?{ |l| l['Mapped URL path [/wms] onto handler'] }
+        true until ::File.exists?("#{tomcat_directory}/geoserver/WEB-INF/web.xml") && ::File.exists?("#{tomcat_directory}/geoserver/data/logs/geoserver.log") && ::File.foreach("#{tomcat_directory}/geoserver/data/logs/geoserver.log").any?{ |l| l['Mapped URL path [/wms] onto handler'] }
     end
   end
   action :nothing
 end
 
+template "#{tomcat_directory}/geoserver/WEB-INF/web.xml" do
+  source "web-xml.erb"
+end
