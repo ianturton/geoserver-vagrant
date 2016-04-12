@@ -69,6 +69,7 @@ execute 'unpack geoserver' do
     EOF
     command unpack
 end    
+
 execute 'install geoserver' do
     unpack = <<-EOF
         cd #{Chef::Config[:file_cache_path]}
@@ -85,7 +86,7 @@ ruby_block "block_until_geoserver_operational" do
         true until ::File.exists?("#{tomcat_directory}/geoserver/WEB-INF/web.xml") && ::File.exists?("#{tomcat_directory}/geoserver/data/logs/geoserver.log") && ::File.foreach("#{tomcat_directory}/geoserver/data/logs/geoserver.log").any?{ |l| l['Mapped URL path [/wms] onto handler'] }
     end
   end
-  action :nothing
+#  action :nothing
 end
 
 template "#{tomcat_directory}/geoserver/WEB-INF/web.xml" do
